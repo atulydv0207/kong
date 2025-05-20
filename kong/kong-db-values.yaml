@@ -1,0 +1,56 @@
+image:
+  repository: kong
+  tag: "3.3"
+
+env:
+  database: "postgres"
+  pg_host: "kong-database-postgresql"
+  pg_port: "5432"
+  pg_user: "kong"
+  pg_password: "kong"
+  pg_database: "kong"
+  KONG_FEATURES: "GatewayAlpha=true,KongServiceFacade=true"
+  
+admin:
+  enabled: true
+  http:
+    enabled: true
+    servicePort: 8001
+    containerPort: 8001
+  tls:
+    enabled: false
+  ingress:
+    enabled: false
+
+proxy:
+  enabled: true
+  type: ClusterIP
+  env:
+    database: "postgres"
+    pg_host: "kong-database-postgresql"
+    pg_port: "5432"
+  http:
+    enabled: true
+    servicePort: 8000
+    containerPort: 8000
+  tls:
+    enabled: false
+
+# Kong Enterprise settings
+enterprise:
+  enabled: false
+manager:
+  enabled: false
+portal:
+  enabled: false
+
+# Kong Ingress Controller
+ingressController:
+  enabled: true
+  installCRDs: false
+  env:
+    CONTROLLER_KONG_ADMIN_URL: "http://kong-kong-admin.kong.svc.cluster.local:8001"
+    KONG_ADMIN_TLS_SKIP_VERIFY: "true"
+
+postgresql:
+  enabled: false  # We're using our separate PostgreSQL installation

@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kong-migrations
+  namespace: kong
+spec:
+  template:
+    metadata:
+      name: kong-migrations
+    spec:
+      containers:
+      - name: kong-migrations
+        image: kong:3.3
+        command: [ "/bin/sh", "-c", "kong migrations bootstrap" ]
+        env:
+        - name: KONG_DATABASE
+          value: postgres
+        - name: KONG_PG_HOST
+          value: kong-database-postgresql
+        - name: KONG_PG_PORT
+          value: "5432"
+        - name: KONG_PG_USER
+          value: kong
+        - name: KONG_PG_PASSWORD
+          value: kong
+        - name: KONG_PG_DATABASE
+          value: kong
+      restartPolicy: OnFailure

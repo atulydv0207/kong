@@ -1,0 +1,14 @@
+auth:
+  username: kong
+  password: kong
+  database: kong
+  replicationPassword: kong_replication
+
+primary:
+  persistence:
+    size: 8Gi
+
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 250m
