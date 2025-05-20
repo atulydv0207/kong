@@ -1,0 +1,42 @@
+# kong-config/values.yaml
+
+# Declare API key plugin
+plugins:
+  - name: key-auth
+    plugin: key-auth
+    enabled: true
+    config:
+      key_names:
+        - apikey
+      hide_credentials: false
+
+# Define KongConsumers and their credentials
+consumers:
+  - username: atul
+    custom_id: atul-id
+    credentials:
+      - name: atul-apikey
+        key: my-secret-key-123
+
+  - username: john
+    custom_id: john-id
+    credentials:
+      - name: john-apikey
+        key: my-secret-key-john
+
+# Define services to expose via Ingress
+services:
+  - name: httpd-service
+    namespace: sample-apps
+    port: 80
+    secure: true
+    path: /secure
+
+  - name: nginx-service
+    namespace: sample-apps
+    port: 80
+    secure: false
+    path: /open
+
+# Ingress controller class to use
+ingressClass: kong

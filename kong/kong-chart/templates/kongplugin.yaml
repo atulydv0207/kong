@@ -1,0 +1,15 @@
+{{- range .Values.plugins }}
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    global: "false"
+plugin: {{ .plugin }}
+config:
+  {{- range $key, $val := .config }}
+  {{ $key }}: {{ $val }}
+  {{- end }}
+---
+{{- end }}

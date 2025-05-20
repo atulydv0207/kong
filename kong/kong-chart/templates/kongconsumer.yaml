@@ -1,0 +1,25 @@
+{{- range .Values.consumers }}
+{{- $consumer := . }}
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: {{ $consumer.username }}
+  namespace: {{ $.Release.Namespace }}
+username: {{ $consumer.username }}
+---
+{{- range $consumer.credentials }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    konghq.com/credential: "true"
+    konghq.com/consumer: {{ $consumer.username | quote }}
+type: Opaque
+stringData:
+  kongCredType: key-auth
+  key: {{ .key | quote }}
+---
+{{- end }}
+{{- end }}
