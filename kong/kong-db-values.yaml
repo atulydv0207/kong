@@ -1,9 +1,13 @@
 image:
   repository: kong
-  tag: "3.3"
+  tag: "3.9"
 
 env:
   database: "postgres"
+  admin_gui_url: "http://localhost:8002"  # Set to your actual Kong Manager URL
+  admin_gui_api_url: "http://localhost:8001"  # This is critical - points Kong Manager to Admin API
+  admin_listen: "0.0.0.0:8001"
+  admin_gui_listen: "0.0.0.0:8002"
   pg_host: "kong-database-postgresql"
   pg_port: "5432"
   pg_user: "kong"
@@ -40,7 +44,7 @@ proxy:
 enterprise:
   enabled: false
 manager:
-  enabled: false
+  enabled: true
 portal:
   enabled: false
 

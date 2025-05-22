@@ -1,0 +1,43 @@
+# protected-route.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: protected-api
+  namespace: default
+  annotations:
+    konghq.com/plugins: key-auth
+spec:
+  parentRefs:
+  - name: kong-gateway
+    namespace: kong
+  hostnames:
+  - "api.example.com"  # Change to your domain
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api
+    backendRefs:
+    - name: echo-service
+      port: 80
+---
+# Optional: Create a public route without authentication
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: public-api
+  namespace: default
+spec:
+  parentRefs:
+  - name: kong-gateway
+    namespace: kong
+  hostnames:
+  - "api.example.com"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /public
+    backendRefs:
+    - name: echo-service
+      port: 80

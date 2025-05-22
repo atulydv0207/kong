@@ -1,0 +1,17 @@
+# advanced-key-auth.yaml
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: advanced-key-auth
+  namespace: default
+plugin: key-auth
+config:
+  key_names:
+  - "x-api-key"
+  - "authorization"
+  key_in_header: true
+  key_in_query: false
+  key_in_body: false
+  hide_credentials: true
+  anonymous: ""  # Set to consumer ID for anonymous access
+  run_on_preflight: true

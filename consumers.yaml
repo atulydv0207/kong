@@ -1,0 +1,14 @@
+# consumers.yaml
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: user1
+  namespace: default
+username: user1
+---
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: user2
+  namespace: default
+username: user2
